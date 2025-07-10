@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+      max-width: 550px;
+      margin: 60px auto;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 35px;
+    }
+
+    h2 {
+      color: #2d3436;
+      font-weight: bold;
+    }
+
+    .btn-success {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-success:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px rgba(0, 128, 0, 0.2);
+    }
+
+    #resultBox {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card text-center">
+    <h2 class="mb-4"><i class="bi bi-calculator-fill text-success"></i> Lorenz Calculator</h2>
+
+    <input type="number" class="form-control mb-3" id="num1" placeholder="Enter first number">
+
+    <select class="form-select mb-3" id="operator">
+      <option value="+">➕ Add</option>
+      <option value="-">➖ Subtract</option>
+      <option value="*">✖ Multiply</option>
+      <option value="/">➗ Divide</option>
+      <option value="%">🧮 Modulo</option>
+      <option value="^">x ^ y (Exponent)</option>
+      <option value="^3">x³ (Power of 3)</option>
+      <option value="√">√x (Square Root)</option>
+      <option value="∛">∛x (Cube Root)</option>
+      <option value="%of">x% of y</option>
+      <option value="sin">sin(x)</option>
+      <option value="cos">cos(x)</option>
+      <option value="tan">tan(x)</option>
+    </select>
+
+    <input type="number" class="form-control mb-3" id="num2" placeholder="Enter second number (if needed)">
+
+    <button class="btn btn-success w-100 mb-2" onclick="calculate()">
+      <i class="bi bi-lightning-charge-fill"></i> Compute
+    </button>
+
+    <div id="resultBox" class="alert mt-3 d-flex align-items-center" role="alert">
+      <i class="bi me-2 fs-4" id="resultIcon"></i>
+      <div id="result" class="fw-bold"></div>
+    </div>
+
+    <button class="btn btn-outline-primary w-100 mt-2" onclick="copyResult()">
+      <i class="bi bi-clipboard"></i> Copy Result
+    </button>
+
+    <a href="index.html" class="btn btn-outline-secondary mt-3">
+      <i class="bi bi-arrow-left-circle-fill"></i> Back to Menu
+    </a>
+  </div>
+
+  <script>
+    function calculate() {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+      const operator = document.getElementById('operator').value;
+      const resultEl = document.getElementById('result');
+      const resultBox = document.getElementById('resultBox');
+      const resultIcon = document.getElementById('resultIcon');
+
+      resultBox.style.display = 'none';
+      resultBox.classList.remove('alert-danger', 'alert-primary');
+      resultIcon.className = 'bi';
+
+      if (isNaN(num1)) {
+        resultEl.textContent = '⚠️ Enter a valid first number.';
+        resultBox.classList.add('alert-danger');
+        resultIcon.classList.add('bi-exclamation-circle-fill');
+        resultBox.style.display = 'flex';
+        return;
+      }
+
+      const binaryOps = ['+', '-', '*', '/', '%', '^', '%of'];
+      if (binaryOps.includes(operator) && isNaN(num2)) {
+        resultEl.textContent = '⚠️ Enter a valid second number.';
+        resultBox.classList.add('alert-danger');
+        resultIcon.classList.add('bi-exclamation-circle-fill');
+        resultBox.style.display = 'flex';
+        return;
+      }
+
+      if ((operator === '/' || operator === '%') && num2 === 0) {
+        resultEl.textContent = '⚠️ Cannot divide/modulo by zero.';
+        resultBox.classList.add('alert-danger');
+        resultIcon.classList.add('bi-x-circle-fill');
+        resultBox.style.display = 'flex';
+        return;
+      }
+
+      let total;
+      let resultStr = '';
+
+      switch (operator) {
+        case '+': total = num1 + num2; resultStr = `${num1} + ${num2} = ${total}`; break;
+        case '-': total = num1 - num2; resultStr = `${num1} - ${num2} = ${total}`; break;
+        case '*': total = num1 * num2; resultStr = `${num1} * ${num2} = ${total}`; break;
+        case '/': total = num1 / num2; resultStr = `${num1} / ${num2} = ${total}`; break;
+        case '%': total = num1 % num2; resultStr = `${num1} % ${num2} = ${total}`; break;
+        case '^': total = Math.pow(num1, num2); resultStr = `${num1} ^ ${num2} = ${total}`; break;
+        case '^3': total = Math.pow(num1, 3); resultStr = `${num1}³ = ${total}`; break;
+        case '√': total = Math.sqrt(num1); resultStr = `√${num1} = ${total}`; break;
+        case '∛': total = Math.cbrt(num1); resultStr = `∛${num1} = ${total}`; break;
+        case '%of': total = (num1 / 100) * num2; resultStr = `${num1}% of ${num2} = ${total}`; break;
+        case 'sin': total = Math.sin(num1 * Math.PI / 180); resultStr = `sin(${num1}°) = ${total}`; break;
+        case 'cos': total = Math.cos(num1 * Math.PI / 180); resultStr = `cos(${num1}°) = ${total}`; break;
+        case 'tan': total = Math.tan(num1 * Math.PI / 180); resultStr = `tan(${num1}°) = ${total}`; break;
+        default: resultStr = 'Invalid operation';
+      }
+
+      resultEl.textContent = resultStr;
+      resultBox.classList.add('alert-primary');
+      resultIcon.classList.add('bi-check-circle-fill');
+      resultBox.style.display = 'flex';
+      lastResult = resultStr;
+
+      const history = JSON.parse(localStorage.getItem('calc_history')) || [];
+      history.push(resultStr);
+      localStorage.setItem('calc_history', JSON.stringify(history));
+    }
+
+    let lastResult = '';
+
+    function copyResult() {
+      if (lastResult) {
+        navigator.clipboard.writeText(lastResult)
+          .then(() => alert('📋 Result copied!'))
+          .catch(() => alert('❌ Copy failed.'));
+      }
+    }
+  </script>
+</body>
+</html>
