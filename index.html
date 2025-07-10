@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lorenz Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #dce35b, #45b649);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .container {
+      max-width: 500px;
+      background: #ffffffdd;
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-top: 60px;
+    }
+    h1 {
+      font-weight: bold;
+      color: #2d3436;
+    }
+    .btn {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container text-center">
+    <h1 class="mb-4">🧮 Lorenz Calculator</h1>
+
+    <div class="d-grid gap-3">
+      <a href="calculator.html" class="btn btn-primary"><i class="bi bi-calculator"></i> Start Calculator</a>
+      <a href="resistor.html" class="btn btn-success"><i class="bi bi-diagram-3-fill"></i> Resistor Calculator</a>
+      <a href="binary.html" class="btn btn-dark"><i class="bi bi-code-slash"></i> Binary Calculator</a>
+      <a href="developer.html" class="btn btn-secondary"><i class="bi bi-person-circle"></i> About Developer</a>
+      <a href="instructions.html" class="btn btn-info text-white"><i class="bi bi-info-circle"></i> Instructions</a>
+      <a href="history.html" class="btn btn-warning"><i class="bi bi-clock-history"></i> View Calculation History</a>
+      <button class="btn btn-danger" onclick="clearHistory()"><i class="bi bi-trash3-fill"></i> Clear History</button>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Feedback Form -->
+    <h5 class="mb-3">💬 Send Feedback or Suggestion</h5>
+    <form action="https://formsubmit.co/cppnoble@gmail.com" method="POST" onsubmit="return showThankYou()">
+      <input type="hidden" name="_subject" value="Lorenz Calculator Feedback">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+
+      <!-- Name -->
+      <div class="mb-3 text-start">
+        <label for="name" class="form-label fw-bold">Your Name</label>
+        <input type="text" name="name" id="name" class="form-control" required placeholder="Juan Dela Cruz">
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3 text-start">
+        <label for="email" class="form-label fw-bold">Your Email</label>
+        <input type="email" name="email" id="email" class="form-control" required placeholder="example@gmail.com">
+      </div>
+
+      <!-- Role -->
+      <div class="mb-3 text-start">
+        <label for="role" class="form-label fw-bold">I am a...</label>
+        <select name="role" id="role" class="form-select" required>
+          <option value="" disabled selected>Select your role</option>
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <!-- Visible Location -->
+      <div class="mb-3 text-start">
+        <label for="location" class="form-label fw-bold">Your Location</label>
+        <input type="text" name="location" id="location" class="form-control" required placeholder="Auto-detecting...">
+      </div>
+
+      <!-- Suggestion -->
+      <div class="mb-3 text-start">
+        <label for="message" class="form-label fw-bold">Your Suggestion</label>
+        <textarea name="message" id="message" class="form-control" rows="3" required placeholder="Enter your suggestion here..."></textarea>
+      </div>
+
+      <!-- Hidden Fields (Auto-Filled) -->
+      <input type="hidden" name="ip_address" id="ip_address">
+      <input type="hidden" name="full_location" id="full_location">
+
+      <button type="submit" class="btn btn-outline-primary">
+        <i class="bi bi-send-fill"></i> Submit Suggestion
+      </button>
+    </form>
+  </div>
+
+  <!-- Script Section -->
+  <script>
+    function clearHistory() {
+      localStorage.removeItem('calc_history');
+      alert('✅ History cleared.');
+    }
+
+    function showThankYou() {
+      alert('✅ Thank you for your suggestion! It will be deployed soon.');
+      return true;
+    }
+
+    // Auto-fill IP & location
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        const loc = `${data.city}, ${data.region}, ${data.country_name}`;
+        document.getElementById("location").value = loc;
+        document.getElementById("ip_address").value = data.ip;
+        document.getElementById("full_location").value = `${loc} (Postal: ${data.postal}, Org: ${data.org})`;
+      })
+      .catch(err => {
+        console.warn("Could not get location:", err);
+      });
+  </script>
+</body>
