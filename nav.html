@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Tools | Lorenz Dev</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body.blocked {
+      overflow: hidden;
+    }
+    #warningScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #121212;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      text-align: center;
+      padding: 20px;
+    }
+    #warningScreen img {
+      width: 120px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+    #accessBtn {
+      margin-top: 15px;
+    }
+    .countdown {
+      font-size: 1.2rem;
+      color: #ffc107;
+    }
+  </style>
+</head>
+<body class="blocked">
+
+<!-- 🚫 Warning Screen -->
+<div id="warningScreen">
+  <img src="20240625_131426.jpeg" alt="Robot Face" />
+  <h2>⚠️ Restricted Access</h2>
+  <p>This Dev Tool is under maintenance or protected. Please wait or verify your access.</p>
+  <p class="countdown">⏳ <span id="timeLeft"></span> remaining</p>
+  <button id="accessBtn" class="btn btn-success">Proceed Anyway</button>
+</div>
+
+<!-- ✅ PAGE CONTENT (Hidden Initially) -->
+<div id="realContent" style="display: none;">
+  <!-- Your original Dev Tools HTML goes here -->
+  <div class="container text-center mt-5">
+    <h1>🧠 Welcome to Lorenz Dev Tools</h1>
+    <p>Tool loaded successfully after security check.</p>
+  </div>
+</div>
+
+<!-- ✅ SCRIPT -->
+<script>
+  const warningScreen = document.getElementById('warningScreen');
+  const realContent = document.getElementById('realContent');
+  const accessBtn = document.getElementById('accessBtn');
+  const timeLeft = document.getElementById('timeLeft');
+
+  const now = new Date().getTime();
+  const expiration = localStorage.getItem('lorenzDevExpire');
+  let expireTime;
+
+  if (!expiration) {
+    expireTime = now + (48 * 60 * 60 * 1000); // 48 hours
+    localStorage.setItem('lorenzDevExpire', expireTime);
+  } else {
+    expireTime = parseInt(expiration);
+  }
+
+  const interval = setInterval(() => {
+    const current = new Date().getTime();
+    const remaining = expireTime - current;
+
+    if (remaining <= 0) {
+      timeLeft.textContent = "⛔ Expired";
+      accessBtn.disabled = true;
+      accessBtn.textContent = "Access Expired";
+    } else {
+      const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+      timeLeft.textContent = `${hours}h ${minutes}m ${seconds}s`;
+    }
+  }, 1000);
+
+  accessBtn.onclick = () => {
+    warningScreen.style.display = 'none';
+    realContent.style.display = 'block';
+    document.body.classList.remove('blocked');
+  };
+</script>
+</body>
+</html>
