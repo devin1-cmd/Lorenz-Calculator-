@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lorenz Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .tools-section {
+      padding: 30px;
+    }
+    .tool-card {
+      transition: transform 0.2s;
+    }
+    .tool-card:hover {
+      transform: scale(1.02);
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 8px;
+    }
+    .toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 1080;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<!-- 🔐 Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <a class="navbar-brand" href Lorenz Calculator</a>
+  <div class="collapse navbar-collapse justify-content-end">
+    <ul class="navbar-nav align-items-center">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          <img id="navAvatar" class="avatar" src="default-avatar.png" alt="User">
+          <span id="navEmail">Account</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 🧰 Tools Section -->
+<div class="container tools-section text-center">
+  <h1 class="mb-4">Welcome to Lorenz Calculator</h1>
+  <p class="text-muted mb-4">Choose a tool below:</p>
+  <div class="row g-3 justify-content-center">
+    <div class="col-md-4">
+      <a href="calculator.html" class="text-decoration-none">
+        <div class="card tool-card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">📟 Scientific Calculator</h5>
+            <p class="card-text">Includes arithmetic, powers, trig, and more.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="resistor.html" class="text-decoration-none">
+        <div class="card tool-card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">🎨 Resistor Color Code</h5>
+            <p class="card-text">Decode 4-band, 5-band resistors visually.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="instructions.html" class="text-decoration-none">
+        <div class="card tool-card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">📘 Instructions</h5>
+            <p class="card-text">Learn how to use each feature easily.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="history.html" class="text-decoration-none">
+        <div class="card tool-card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">📊 History</h5>
+            <p class="card-text">View previous calculations and logs.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="suggestion.html" class="text-decoration-none">
+        <div class="card tool-card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">💡 Suggestions</h5>
+            <p class="card-text">Submit your ideas and improvements.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="feedback.html" class="text-decoration-none">
+        <div class="card tool-card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">📝 Feedback</h5>
+            <p class="card-text">Share your experience using the app.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+    <a href="nav.html" class="btn btn-outline-secondary mt-3 shadow-sm">
+      <i class="bi bi-arrow-left-circle-fill"></i> Back to Menu
+    </a>
+  </div>
+<!-- 🔧 Script -->
+<script>
+  const user = localStorage.getItem("username");
+  const avatar = localStorage.getItem("avatar") || "default-avatar.png";
+
+  
+
+  
+
+  function showToast(message) {
+    const container = document.createElement('div');
+    container.className = 'toast-container';
+    container.innerHTML = `
+      <div class="toast align-items-center text-bg-primary border-0 show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">
+            ${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>`;
+    document.body.appendChild(container);
+    setTimeout(() => container.remove(), 3000);
+  }
+
+  function launchConfetti() {
+    confetti({
+      particleCount: 100,
+      spread: 60,
+      origin: { y: 0.6 }
+    });
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
