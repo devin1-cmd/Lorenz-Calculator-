@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Tools | Lorenz Dev</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-mode {
+      background-color: #121212 !important;
+      color: #ffffff !important;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .floating-element {
+      display: inline-block;
+      animation: floatY 2.5s ease-in-out infinite;
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .particles span {
+      position: absolute;
+      display: inline-block;
+      color: #1877f2;
+      opacity: 0.5;
+      animation: moveParticles 10s linear infinite;
+    }
+    @keyframes moveParticles {
+      0% { transform: translateY(100vh) scale(0.6); opacity: 0; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0.9; }
+    }
+  </style>
+
+  <audio id="bgMusic" src="https://files.catbox.moe/31tsd3.mp3" preload="auto" loop></audio>
+  <audio id="clickSound" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
+  <audio id="pingSound" src="https://www.fesliyanstudios.com/play-mp3/438" preload="auto"></audio>
+  <audio id="successSound" src="https://www.fesliyanstudios.com/play-mp3/6612" preload="auto"></audio>
+</head>
+<body>
+<div class="particles"></div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Lorenz Dev</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">🧮 Calculator</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="developer.html">👨‍💻 Developer</a></li>
+        <li class="nav-item"><a class="nav-link text-white toggle-mode" onclick="toggleMode()">🌓 Light/Dark</a></li>
+        <li class="nav-item"><a class="nav-link text-white toggle-sound" onclick="toggleSound()">🔊 Music</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container text-center mt-5 pt-5">
+  <h1 class="floating-element" data-aos="fade-up">Welcome to Lorenz Dev Tools 🔧</h1>
+  <p class="text-muted">Click the navigation bar to access all tools.<br>More features and updates coming soon!</p>
+</div>
+
+<!-- ✅ UPDATED QR CODE SECTION -->
+<div class="container qr-section text-center mt-5">
+  <h5 class="mb-3">📱 Scan to Share This Site</h5>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://median.co/share/aaojkr#apk" alt="QR Code" class="img-thumbnail shadow-sm">
+  <br>
+  <a class="btn btn-outline-secondary mt-3" download href="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://median.co/share/aaojkr#apk">⬇️ Download QR Code</a>
+</div>
+
+<div class="container text-center mt-5">
+  <h5>📦 Download Our Web-Based APK</h5>
+  <p>Install the APK on your mobile device and enjoy!</p>
+  <div class="d-inline-block border rounded p-3 bg-light shadow-sm">
+    <p><strong>Size:</strong> 8.86 MB</p>
+    <p><strong>Verified:</strong> ✅ Safe</p>
+    <p><strong>Downloads:</strong> 2,314+</p>
+    <a href="https://median.co/share/aaojkr#apk" target="_blank" class="btn btn-dark" id="apkDownloadBtn">⬇️ Download APK</a>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="card p-4">
+    <h4 class="text-center mb-3">📩 Feedback & Suggestions</h4>
+    <form method="POST" action="https://formsubmit.co/cppnoble@gmail.com">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_subject" value="Feedback from Dev Tools">
+      <input type="hidden" name="_template" value="box">
+      <input type="hidden" name="_next" value="thankyou.html">
+      <input type="hidden" name="IP_Address" id="ipAddress">
+      <input type="hidden" name="Location" id="userLocation">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Name</label>
+          <input type="text" name="Name" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label>Email</label>
+          <input type="email" name="Email" class="form-control" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label>Message</label>
+        <textarea name="Message" class="form-control" rows="4" required></textarea>
+      </div>
+      <div class="text-center mb-3">
+        <label>Rate Us</label>
+        <div class="star-rating" id="ratingStars">
+          <i class="bi bi-star" data-value="1"></i>
+          <i class="bi bi-star" data-value="2"></i>
+          <i class="bi bi-star" data-value="3"></i>
+          <i class="bi bi-star" data-value="4"></i>
+          <i class="bi bi-star" data-value="5"></i>
+        </div>
+        <input type="hidden" name="Rating" id="ratingValue">
+      </div>
+      <button type="submit" class="btn btn-success w-100">Send</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="apkToast" class="toast text-white bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">✅ Download started! Thanks for supporting Lorenz Dev.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<footer class="text-center py-4 mt-5" style="animation: floatFooter 4s ease-in-out infinite; background-color: rgba(0,0,0,0.03);">
+  <div class="container">
+    <small class="d-block text-muted fw-semibold">
+      🚫 All rights reserved. Unauthorized copying or reproduction of <strong>Lorenz Dev Tools</strong> is strictly prohibited.<br>
+      This project is protected and monitored. 🛡️
+    </small>
+  </div>
+</footer>
+
+<style>
+  @keyframes floatFooter {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+  const music = document.getElementById('bgMusic');
+  music.volume = 0.4;
+  music.play();
+  let soundEnabled = true;
+
+  function toggleMode() {
+    document.body.classList.toggle("dark-mode");
+  }
+  function toggleSound() {
+    soundEnabled = !soundEnabled;
+    if (soundEnabled) {
+      music.play();
+    } else {
+      music.pause();
+    }
+  }
+  function playSound(id) {
+    if (!soundEnabled) return;
+    const audio = document.getElementById(id);
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play();
+    }
+  }
+  document.querySelectorAll("button, .toggle-mode, .nav-link").forEach(el => {
+    el.classList.add('floating-element');
+    el.addEventListener("click", () => playSound("clickSound"));
+  });
+  const apkBtn = document.getElementById("apkDownloadBtn");
+  if (apkBtn) {
+    apkBtn.addEventListener("click", () => {
+      const toast = new bootstrap.Toast(document.getElementById('apkToast'));
+      toast.show();
+      playSound("pingSound");
+    });
+  }
+  const form = document.querySelector("form");
+  if (form) {
+    form.addEventListener("submit", () => {
+      playSound("successSound");
+    });
+  }
+  const icons = ['⚙️','💻','🧮','🧠','👨‍💻','🔧','📡'];
+  const particles = document.querySelector('.particles');
+  for (let i = 0; i < 35; i++) {
+    const item = document.createElement('span');
+    const isIcon = Math.random() < 0.5;
+    if (isIcon) {
+      item.innerText = icons[Math.floor(Math.random() * icons.length)];
+      item.style.fontSize = `${12 + Math.random() * 10}px`;
+    } else {
+      item.style.width = item.style.height = `${6 + Math.random() * 4}px`;
+      item.style.background = 'rgba(24, 119, 242, 0.2)';
+    }
+    item.style.left = Math.random() * 100 + '%';
+    item.style.top = Math.random() * 100 + '%';
+    item.style.position = 'absolute';
+    item.style.animation = 'moveParticles ' + (5 + Math.random() * 7) + 's linear infinite';
+    item.style.animationDelay = Math.random() * 5 + 's';
+    particles.appendChild(item);
+  }
+
+  fetch('https://ipapi.co/json/')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('ipAddress').value = data.ip;
+      document.getElementById('userLocation').value = `${data.city}, ${data.region}, ${data.country_name}`;
+    })
+    .catch(() => {
+      document.getElementById('ipAddress').value = "Unavailable";
+      document.getElementById('userLocation').value = "Unknown";
+    });
+</script>
+</body>
+</html>
